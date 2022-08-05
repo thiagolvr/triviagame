@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { setToken } from '../helpers/triviaAPI';
+import { addUser } from '../redux/actions';
 
 class Login extends Component {
     state = {
@@ -21,9 +23,11 @@ class Login extends Component {
     }
 
     handleCLick = async () => {
-      const { history } = this.props;
+      const { history, dispatch } = this.props;
+      const { name, gravatarEmail } = this.state;
       await setToken();
-      history.push('/start');
+      history.push('/game');
+      dispatch(addUser({ name, gravatarEmail }));
     }
 
     handleSettingsBtn = () => {
@@ -78,4 +82,4 @@ Login.propTypes = {
   history: PropTypes.objectOf(PropTypes.any),
 }.isRequired;
 
-export default Login;
+export default connect()(Login);
