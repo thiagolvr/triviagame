@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { setToken } from '../helpers/triviaAPI';
 
 class Login extends Component {
     state = {
@@ -16,6 +18,12 @@ class Login extends Component {
           ? this.setState({ isButtonDisabled: false })
           : this.setState({ isButtonDisabled: true });
       });
+    }
+
+    handleCLick = async () => {
+      const { history } = this.props;
+      await setToken();
+      history.push('/start');
     }
 
     render() {
@@ -43,7 +51,7 @@ class Login extends Component {
               data-testid="btn-play"
               type="button"
               id="isButtonDisabled"
-              // onCLick={}
+              onClick={ this.handleCLick }
               disabled={ isButtonDisabled }
             >
               Play
@@ -54,5 +62,9 @@ class Login extends Component {
       );
     }
 }
+
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any),
+}.isRequired;
 
 export default Login;
