@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { fetchTrivia } from '../services/triviaAPI';
+import '../CSS/CardQuestion.css';
 
 class CardQuestion extends Component {
   state = {
@@ -19,6 +20,19 @@ class CardQuestion extends Component {
 
     this.setState({ question });
   };
+
+  handleClick = ({ target }) => {
+    const arr = target.parentNode.children;
+    const correctAnswer = 'correct-answer';
+    Array.from(arr).forEach((btn) => {
+      const answers = btn.dataset.testid;
+      if (answers === correctAnswer) {
+        btn.className = correctAnswer;
+      } else {
+        btn.className = 'incorrect-answers';
+      }
+    });
+  }
 
   handleCreateRandom(arr) {
     const myArr = [...arr];
@@ -49,7 +63,6 @@ class CardQuestion extends Component {
 
     return (
       <div>
-        hi
         {question && (
           <div>
             <p data-testid="question-category">{category}</p>
@@ -65,6 +78,7 @@ class CardQuestion extends Component {
                       : `wrong-answer-${index2}`
                   }
                   type="button"
+                  onClick={ this.handleClick }
                 >
                   {answer}
                 </button>
