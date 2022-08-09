@@ -6,10 +6,30 @@ import '../CSS/CardQuestion.css';
 class CardQuestion extends Component {
   state = {
     question: {},
+    isButtonsDisabled: false,
+    timer: 30,
+    randomArray: [],
   };
 
-  componentDidMount() {
-    this.handleGetIn();
+  async componentDidMount() {
+    await this.handleGetIn();
+    this.handleTimerLimit();
+    this.randomArrayToState();
+  }
+
+  handleTimerLimit = () => {
+    const ONE_SECOND = 1000;
+    const interval = setInterval(() => {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }), () => {
+        const { timer } = this.state;
+        if (timer === 0) {
+          this.setState({ isButtonsDisabled: true });
+          clearInterval(interval);
+        }
+      });
+    }, ONE_SECOND);
   }
 
   handleGetIn = async () => {
@@ -34,6 +54,18 @@ class CardQuestion extends Component {
     });
   }
 
+  randomArrayToState = () => {
+    const {
+      question: {
+        incorrect_answers: incorrect,
+        correct_answer: correct,
+      },
+    } = this.state;
+    const answers = incorrect ? [...incorrect, correct] : [];
+    const randomAnswers = this.handleCreateRandom(answers);
+    this.setState({ randomArray: randomAnswers });
+  }
+
   handleCreateRandom(arr) {
     const myArr = [...arr];
     const randomizedArr = [];
@@ -53,13 +85,12 @@ class CardQuestion extends Component {
       question: {
         category,
         question: text,
-        incorrect_answers: incorrect,
         correct_answer: correct,
       },
+      isButtonsDisabled,
+      timer,
+      randomArray,
     } = this.state;
-
-    const answers = incorrect ? [...incorrect, correct] : [];
-    const randomAnswers = this.handleCreateRandom(answers);
 
     return (
       <div>
@@ -67,11 +98,12 @@ class CardQuestion extends Component {
           <div>
             <p data-testid="question-category">{category}</p>
             <p data-testid="question-text">{text}</p>
-
+            <span>{timer}</span>
             <div data-testid="answer-options">
-              {randomAnswers.map((answer, index2) => (
+              {randomArray.map((answer, index2) => (
                 <button
                   key={ index2 }
+                  disabled={ isButtonsDisabled }
                   data-testid={
                     answer === correct
                       ? 'correct-answer'
