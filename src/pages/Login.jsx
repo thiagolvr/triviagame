@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setToken } from '../helpers/triviaAPI';
+import { setToken } from '../services/triviaAPI';
 import { addUser } from '../redux/actions';
 
 class Login extends Component {
@@ -22,12 +22,23 @@ class Login extends Component {
       });
     }
 
-    handleCLick = async () => {
+    handleClick = async () => {
       const { history, dispatch } = this.props;
       const { name, gravatarEmail } = this.state;
+      const { history: { push } } = this.props;
+
       await setToken();
-      history.push('/game');
+
+      const code = localStorage.getItem('code');
+
+      if (code !== '0') {
+        localStorage.removeItem('token');
+        return push('/');
+      }
+
       dispatch(addUser({ name, gravatarEmail }));
+
+      history.push('/game/0');
     }
 
     handleSettingsBtn = () => {
@@ -37,6 +48,7 @@ class Login extends Component {
 
     render() {
       const { name, gravatarEmail, isButtonDisabled } = this.state;
+
       return (
         <form>
           <label htmlFor="inputName">
@@ -60,7 +72,7 @@ class Login extends Component {
               data-testid="btn-play"
               type="button"
               id="isButtonDisabled"
-              onClick={ this.handleCLick }
+              onClick={ this.handleClick }
               disabled={ isButtonDisabled }
             >
               Play
