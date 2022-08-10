@@ -18,7 +18,6 @@ class Game extends Component {
 
   render() {
     const { questions } = this.state;
-
     return (
       <div>
         <Header />

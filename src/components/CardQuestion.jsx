@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { fetchTrivia } from '../services/triviaAPI';
+import { saveScore } from '../redux/actions';
 import '../CSS/CardQuestion.css';
 
 class CardQuestion extends Component {
@@ -9,6 +11,7 @@ class CardQuestion extends Component {
     isButtonsDisabled: false,
     timer: 30,
     randomArray: [],
+    answered: false,
   };
 
   async componentDidMount() {
@@ -41,7 +44,21 @@ class CardQuestion extends Component {
     this.setState({ question });
   };
 
+  questionDifficulty = () => {
+    const { question: { difficulty }, timer } = this.state;
+    const hard = 3;
+    const setScore = 10;
+    let currentDifficulty;
+    if (difficulty === 'easy') currentDifficulty = 1;
+    if (difficulty === 'medium') currentDifficulty = 2;
+    if (difficulty === 'hard') currentDifficulty = hard;
+    const equation = setScore + (timer * currentDifficulty);
+    return equation;
+  }
+
   handleClick = ({ target }) => {
+    this.setState({ answered: true });
+    const { dispatch } = this.props;
     const arr = target.parentNode.children;
     const correctAnswer = 'correct-answer';
     Array.from(arr).forEach((btn) => {
@@ -52,6 +69,9 @@ class CardQuestion extends Component {
         btn.className = 'incorrect-answers';
       }
     });
+    if (target.className === correctAnswer) {
+      dispatch(saveScore(this.questionDifficulty()));
+    }
   }
 
   randomArrayToState = () => {
@@ -90,15 +110,16 @@ class CardQuestion extends Component {
       isButtonsDisabled,
       timer,
       randomArray,
+      answered,
     } = this.state;
 
     return (
       <div>
         {question && (
           <div>
+            <span>{timer}</span>
             <p data-testid="question-category">{category}</p>
             <p data-testid="question-text">{text}</p>
-            <span>{timer}</span>
             <div data-testid="answer-options">
               {randomArray.map((answer, index2) => (
                 <button
@@ -118,6 +139,14 @@ class CardQuestion extends Component {
             </div>
           </div>
         )}
+        { answered && (
+          <button
+            data-testid="btn-next"
+            type="button"
+          >
+            Next
+          </button>
+        )}
       </div>
     );
   }
@@ -127,4 +156,8 @@ CardQuestion.propTypes = {
   match: PropTypes.objectOf(PropTypes.any),
 }.isRequired;
 
-export default CardQuestion;
+const mapStateToProps = (state) => ({
+  score: state.player.score,
+});
+
+export default connect(mapStateToProps)(CardQuestion);
