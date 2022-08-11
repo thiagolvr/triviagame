@@ -1,6 +1,7 @@
 export const ADD_USER = 'ADD_USER';
 export const SAVE_SCORE = 'SAVE_SCORE';
 export const SAVE_QUESTIONS = 'SAVE_QUESTIONS';
+export const SAVE_ASSERTIONS = 'SAVE_ASSERTIONS';
 
 export const addUser = (payload) => ({
   type: ADD_USER,
@@ -14,5 +15,10 @@ export const saveScore = (payload) => ({
 
 export const saveQuestions = (payload) => ({
   type: SAVE_QUESTIONS,
+  payload,
+});
+
+export const saveAssertions = (payload) => ({
+  type: SAVE_ASSERTIONS,
   payload,
 });

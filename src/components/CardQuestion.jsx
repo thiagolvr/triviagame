@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { saveScore } from '../redux/actions';
+import { saveScore, saveAssertions } from '../redux/actions';
 import '../CSS/CardQuestion.css';
 
 const correctAnswer = 'correct-answer';
@@ -14,6 +14,7 @@ class CardQuestion extends Component {
     randomArray: [],
     answered: false,
     counter: 0,
+    assertions: 0,
   };
 
   async componentDidMount() {
@@ -70,6 +71,11 @@ class CardQuestion extends Component {
     });
     if (target.className === correctAnswer) {
       dispatch(saveScore(this.questionDifficulty()));
+      this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
+        const { assertions } = this.state;
+        console.log(assertions);
+        dispatch(saveAssertions(assertions));
+      });
     }
     this.setState({ isButtonsDisabled: true });
   }
