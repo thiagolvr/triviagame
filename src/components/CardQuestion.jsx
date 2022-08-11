@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchTrivia } from '../services/triviaAPI';
 import { saveScore } from '../redux/actions';
 import '../CSS/CardQuestion.css';
+
+const correctAnswer = 'correct-answer';
 
 class CardQuestion extends Component {
   state = {
@@ -12,6 +13,7 @@ class CardQuestion extends Component {
     timer: 30,
     randomArray: [],
     answered: false,
+    counter: 0,
   };
 
   async componentDidMount() {
@@ -28,7 +30,7 @@ class CardQuestion extends Component {
       }), () => {
         const { timer } = this.state;
         if (timer === 0) {
-          this.setState({ isButtonsDisabled: true });
+          this.setState({ isButtonsDisabled: true, answered: true });
           clearInterval(interval);
         }
       });
@@ -36,11 +38,9 @@ class CardQuestion extends Component {
   }
 
   handleGetIn = async () => {
-    const token = localStorage.getItem('token');
-    const { questions } = await fetchTrivia(token);
-    const { match: { params: { id } } } = this.props;
-    const question = await questions.find((item) => +item.id === +id);
-
+    const { questions } = this.props;
+    const { counter } = this.state;
+    const question = await questions.find((item) => +item.id === +counter);
     this.setState({ question });
   };
 
@@ -60,7 +60,6 @@ class CardQuestion extends Component {
     this.setState({ answered: true });
     const { dispatch } = this.props;
     const arr = target.parentNode.children;
-    const correctAnswer = 'correct-answer';
     Array.from(arr).forEach((btn) => {
       const answers = btn.dataset.testid;
       if (answers === correctAnswer) {
@@ -72,6 +71,32 @@ class CardQuestion extends Component {
     if (target.className === correctAnswer) {
       dispatch(saveScore(this.questionDifficulty()));
     }
+    this.setState({ isButtonsDisabled: true });
+  }
+
+  handleNext = ({ target }) => {
+    const { history } = this.props;
+    const { counter } = this.state;
+    const lastIndex = 4;
+
+    this.setState({ answered: false, timer: 30, isButtonsDisabled: false });
+
+    if (counter === lastIndex) {
+      return history.push('/feedback');
+    }
+
+    const { questions } = this.props;
+    const btnsElements = target.parentNode.children[0].lastChild.children;
+    Array.from(btnsElements).forEach((el) => {
+      el.classList.remove('incorrect-answers');
+      el.classList.remove(correctAnswer);
+    });
+
+    this.setState((prevState) => ({ counter: prevState.counter + 1 }), () => {
+      this.setState({ question: questions[counter + 1] }, () => {
+        this.randomArrayToState();
+      });
+    });
   }
 
   randomArrayToState = () => {
@@ -143,6 +168,7 @@ class CardQuestion extends Component {
           <button
             data-testid="btn-next"
             type="button"
+            onClick={ this.handleNext }
           >
             Next
           </button>
@@ -157,7 +183,7 @@ CardQuestion.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
-  score: state.player.score,
+  questions: state.questionsReducer.questions,
 });
 
 export default connect(mapStateToProps)(CardQuestion);

@@ -38,7 +38,7 @@ class Login extends Component {
 
       dispatch(addUser({ name, gravatarEmail }));
 
-      history.push('/game/0');
+      history.push('/game');
     }
 
     handleSettingsBtn = () => {

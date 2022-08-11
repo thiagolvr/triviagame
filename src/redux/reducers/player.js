@@ -7,19 +7,17 @@ const INITIAL_STATE = {
   score: 0,
 };
 
-const player = (state = INITIAL_STATE, action) => {
-  const { name, gravatarEmail } = state;
-  switch (action.type) {
+const player = (state = INITIAL_STATE, { type, payload }) => {
+  switch (type) {
   case ADD_USER:
     return {
-      name,
-      gravatarEmail,
-      ...action.payload,
+      ...state,
+      ...payload,
     };
   case SAVE_SCORE:
-    console.log(typeof action.payload);
     return {
-      score: state.score + action.payload,
+      ...state,
+      score: +state.score + +payload,
     };
   default:
     return state;
@@ -27,3 +25,42 @@ const player = (state = INITIAL_STATE, action) => {
 };
 
 export default player;
+
+// case SAVE_SCORE:
+//     if (state.score && state.score.length > 0) {
+//       return {
+//         score: state.score.reduce((acc, curr) => acc + curr),
+//         payload,
+//       };
+//     }
+//     return {
+//       score: payload,
+//     };
+
+// case SAVE_SCORE:
+//     if (state.score && state.score.length > 0) {
+//       return {
+//         score: [...state.score, payload],
+//       };
+//     }
+//     return {
+//       score: [payload],
+//     };
+
+// case SAVE_SCORE:
+//     if (payload && state.score) {
+//       sum = [...state.score, payload].reduce((acc, curr) => acc + curr);
+//     }
+//     return {
+//       score: sum,
+//     };
+
+//     if (state.score && state.score.length > 0) {
+//       return {
+//         score: state.score.reduce((acc, curr) => acc + curr),
+//         payload,
+//       };
+//     }
+//     return {
+//       score: payload,
+//     };
