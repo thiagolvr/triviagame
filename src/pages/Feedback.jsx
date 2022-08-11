@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
 
 class Feedback extends Component {
+  componentDidMount() {
+    this.setStorage();
+  }
+
   handleClickLogin = () => {
     const { history } = this.props;
     history.push('/');
@@ -12,6 +17,24 @@ class Feedback extends Component {
   handleClickRanking = () => {
     const { history } = this.props;
     history.push('/ranking');
+  }
+
+  setStorage = () => {
+    const { name, score, gravatarEmail: picture } = this.props;
+    const gravatarUrl = `https://www.gravatar.com/avatar/${md5(picture).toString()}`;
+
+    const playerObj = {
+      name,
+      picture: gravatarUrl,
+      score,
+    };
+
+    const storage = JSON.parse(localStorage.getItem('ranking'));
+    if (storage !== null) {
+      const rankingList = [...storage, playerObj];
+      return localStorage.setItem('ranking', JSON.stringify(rankingList));
+    }
+    localStorage.setItem('ranking', JSON.stringify([playerObj]));
   }
 
   render() {
@@ -53,6 +76,8 @@ class Feedback extends Component {
 const mapStateToProps = (state) => ({
   score: state.player.score,
   assertions: state.player.assertions,
+  name: state.player.name,
+  gravatarEmail: state.player.gravatarEmail,
 });
 
 Feedback.propTypes = {

@@ -73,7 +73,6 @@ class CardQuestion extends Component {
       dispatch(saveScore(this.questionDifficulty()));
       this.setState((prevState) => ({ assertions: prevState.assertions + 1 }), () => {
         const { assertions } = this.state;
-        console.log(assertions);
         dispatch(saveAssertions(assertions));
       });
     }
