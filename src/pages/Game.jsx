@@ -23,10 +23,14 @@ class Game extends Component {
   }
 
   render() {
-    const { questions } = this.props;
+    const { questions, match: { path } } = this.props;
     return (
       <div>
-        <Header />
+        {
+          path
+            && <Header path={ path } />
+        }
+
         {
           questions.length
             && <Question { ...this.props } />

@@ -7,3 +7,5 @@ export const RESET_SCORE = 'RESET_SCORE';
 
 export const correctAnswer = 'correct-answer';
 export const incorrectAnswers = 'incorrect-answers';
+
+export const minimumAssertions = 3;

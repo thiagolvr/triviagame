@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
+import Summary from '../components/Summary';
+import { minimumAssertions } from '../helpers/constants';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -48,33 +50,17 @@ class Feedback extends Component {
 
   render() {
     const { assertions, score } = this.props;
-    const minimumAssertions = 3;
 
     return (
       <div>
         <Header />
-        <h2 data-testid="feedback-text">
-          {assertions >= minimumAssertions
-            ? 'Well Done!'
-            : 'Could be better...'}
-        </h2>
-        <p data-testid="feedback-total-score">{score}</p>
-        <p data-testid="feedback-total-question">{assertions}</p>
-        <button
-          type="button"
-          data-testid="btn-play-again"
-          onClick={ this.handleClickLogin }
-        >
-          Play Again
-        </button>
-
-        <button
-          type="button"
-          data-testid="btn-ranking"
-          onClick={ this.handleClickRanking }
-        >
-          Ranking
-        </button>
+        <Summary
+          assertions={ assertions }
+          minimumAssertions={ minimumAssertions }
+          score={ score }
+          handleClickLogin={ this.handleClickLogin }
+          handleClickRanking={ this.handleClickRanking }
+        />
       </div>
     );
   }

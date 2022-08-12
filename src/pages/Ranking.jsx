@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { resetScore } from '../redux/actions';
+import Player from '../components/Player';
 
 class Ranking extends Component {
   handleGetRankingFromLocalStorage = () => JSON
@@ -23,11 +24,14 @@ class Ranking extends Component {
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
         {
-          rankingOfPlayers.map((player, index) => (
+          rankingOfPlayers.map(({ name, score, picture }, index) => (
             <div key={ index }>
-              <img src={ player.picture } alt={ player.name } />
-              <p data-testid={ `player-name-${index}` }>{player.name}</p>
-              <p data-testid={ `player-score-${index}` }>{player.score}</p>
+              <Player
+                name={ name }
+                score={ score }
+                picture={ picture }
+                index={ index }
+              />
             </div>
           ))
         }

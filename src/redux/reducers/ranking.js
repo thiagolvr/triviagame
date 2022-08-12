@@ -1,8 +1,6 @@
 import { ADD_RANKING } from '../../helpers/constants';
 
-const INITIAL_STATE = [];
-
-const ranking = (state = INITIAL_STATE, { type, payload }) => {
+const ranking = (state = [], { type, payload }) => {
   switch (type) {
   case ADD_RANKING:
     return [...state, payload];

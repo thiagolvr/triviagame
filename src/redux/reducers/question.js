@@ -1,7 +1,6 @@
 import { SAVE_QUESTIONS } from '../../helpers/constants';
 
-const INITIAL_STATE = [];
-const questions = (state = INITIAL_STATE, { type, payload }) => {
+const questions = (state = [], { type, payload }) => {
   switch (type) {
   case SAVE_QUESTIONS:
     return payload;

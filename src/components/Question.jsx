@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { saveScore, saveAssertions } from '../redux/actions';
 import '../style/css/Question.css';
 import { correctAnswer, incorrectAnswers } from '../helpers/constants';
+import Button from './Button';
 
 let timerID;
 
@@ -157,25 +158,28 @@ class Question extends Component {
 
     return (
       <div>
-        <span>{timer}</span>
-        <p data-testid="question-category">{category}</p>
-        <p data-testid="question-text">{text}</p>
+        <span>
+          <strong>Time left:</strong>
+          {' '}
+          {timer}
+        </span>
+        <p data-testid="question-category">
+          <strong>Category:</strong>
+          {' '}
+          {category}
+        </p>
+        <p data-testid="question-text"><strong>{text}</strong></p>
         <div data-testid="answer-options">
           {
-            randomAnswers.map((answer, index2) => (
-              <button
-                data-testid={
-                  answer === correct
-                    ? 'correct-answer'
-                    : `wrong-answer-${index2}`
-                }
-                type="button"
-                key={ index2 }
-                disabled={ isButtonsDisabled }
-                onClick={ this.handleClickAnAnswer }
-              >
-                {answer}
-              </button>
+            randomAnswers.map((answer, indexButton) => (
+              <Button
+                key={ indexButton }
+                answer={ answer }
+                correct={ correct }
+                indexButton={ indexButton }
+                isButtonsDisabled={ isButtonsDisabled }
+                handleClickAnAnswer={ this.handleClickAnAnswer }
+              />
             ))
           }
         </div>

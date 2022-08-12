@@ -20,7 +20,7 @@ class Form extends Component {
             type="text"
             id="name"
             value={ name }
-            placeholder="Digite seu nome"
+            placeholder="Type your name"
             onChange={ handleChangeInput }
           />
         </label>
@@ -29,7 +29,7 @@ class Form extends Component {
             data-testid="input-gravatar-email"
             type="email"
             id="gravatarEmail"
-            placeholder="Digite seu email"
+            placeholder="Type your email"
             value={ gravatarEmail }
             onChange={ handleChangeInput }
           />
