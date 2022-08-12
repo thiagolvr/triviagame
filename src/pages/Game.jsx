@@ -5,13 +5,20 @@ import Header from '../components/Header';
 import { fetchTrivia } from '../services/triviaAPI';
 import { saveQuestions } from '../redux/actions';
 
-import CardQuestion from '../components/CardQuestion';
+import Question from '../components/Question';
 
 class Game extends Component {
-  async componentDidMount() {
+  componentDidMount() {
+    this.handleStart();
+  }
+
+  handleStart = async () => {
     const { dispatch } = this.props;
+
     const token = localStorage.getItem('token');
+
     const { questions } = await fetchTrivia(token);
+
     dispatch(saveQuestions(questions));
   }
 
@@ -22,19 +29,17 @@ class Game extends Component {
         <Header />
         {
           questions.length
-            && <CardQuestion { ...this.props } />
+            && <Question { ...this.props } />
         }
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  questions: state.questionsReducer.questions,
-});
+const mapStateToProps = (state) => state;
 
 Game.propTypes = {
-  questions: PropTypes.array,
+  questions: PropTypes.arrayOf(PropTypes.any),
 }.isRequired;
 
 export default connect(mapStateToProps)(Game);

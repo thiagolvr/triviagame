@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setToken } from '../services/triviaAPI';
+import setToken from '../helpers/localStorage';
 import { addUser } from '../redux/actions';
+import Form from '../components/Form';
 
 class Login extends Component {
     state = {
@@ -11,7 +12,7 @@ class Login extends Component {
       isButtonDisabled: true,
     };
 
-    handleChange = ({ target: { id, value } }) => {
+    handleChangeInput = ({ target: { id, value } }) => {
       this.setState({
         [id]: value,
       }, () => {
@@ -22,10 +23,9 @@ class Login extends Component {
       });
     }
 
-    handleClick = async () => {
-      const { history, dispatch } = this.props;
+    handleClickPlay = async () => {
+      const { dispatch, history: { push } } = this.props;
       const { name, gravatarEmail } = this.state;
-      const { history: { push } } = this.props;
 
       await setToken();
 
@@ -38,54 +38,22 @@ class Login extends Component {
 
       dispatch(addUser({ name, gravatarEmail }));
 
-      history.push('/game');
+      push('/game');
     }
 
-    handleSettingsBtn = () => {
-      const { history } = this.props;
-      history.push('/settings');
+    handleClickSettings = () => {
+      const { history: { push } } = this.props;
+      push('/settings');
     }
 
     render() {
-      const { name, gravatarEmail, isButtonDisabled } = this.state;
-
       return (
-        <form>
-          <label htmlFor="inputName">
-            <input
-              type="text"
-              id="name"
-              data-testid="input-player-name"
-              value={ name }
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="inputEmail">
-            <input
-              type="email"
-              id="gravatarEmail"
-              data-testid="input-gravatar-email"
-              value={ gravatarEmail }
-              onChange={ this.handleChange }
-            />
-            <button
-              data-testid="btn-play"
-              type="button"
-              id="isButtonDisabled"
-              onClick={ this.handleClick }
-              disabled={ isButtonDisabled }
-            >
-              Play
-            </button>
-            <button
-              data-testid="btn-settings"
-              type="button"
-              onClick={ this.handleSettingsBtn }
-            >
-              Settings
-            </button>
-          </label>
-        </form>
+        <Form
+          { ...this.state }
+          handleClickPlay={ this.handleClickPlay }
+          handleClickSettings={ this.handleClickSettings }
+          handleChangeInput={ this.handleChangeInput }
+        />
       );
     }
 }

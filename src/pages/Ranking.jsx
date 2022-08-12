@@ -4,21 +4,26 @@ import { connect } from 'react-redux';
 import { resetScore } from '../redux/actions';
 
 class Ranking extends Component {
-  renderRanking = () => JSON.parse(localStorage.getItem('ranking'))
+  handleGetRankingFromLocalStorage = () => JSON
+    .parse(localStorage.getItem('ranking'))
     .sort((a, b) => b.score - a.score);
 
-  handleClickGoHome = () => {
+  handleClickGoHomeButton = () => {
     const { history: { push }, dispatch } = this.props;
+
     dispatch(resetScore(0));
+
     push('/');
   }
 
   render() {
+    const rankingOfPlayers = this.handleGetRankingFromLocalStorage();
+
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
         {
-          this.renderRanking().map((player, index) => (
+          rankingOfPlayers.map((player, index) => (
             <div key={ index }>
               <img src={ player.picture } alt={ player.name } />
               <p data-testid={ `player-name-${index}` }>{player.name}</p>
@@ -29,7 +34,7 @@ class Ranking extends Component {
         <button
           data-testid="btn-go-home"
           type="button"
-          onClick={ this.handleClickGoHome }
+          onClick={ this.handleClickGoHomeButton }
         >
           Go home
         </button>
@@ -38,19 +43,9 @@ class Ranking extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  name: state.player.name,
-  gravatarEmail: state.player.gravatarEmail,
-  score: state.player.score,
-  ranking: state.ranking,
-});
-
 Ranking.propTypes = {
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
-  player: PropTypes.shape({
-    name: PropTypes.string,
-    gravatarEmail: PropTypes.string,
-  }),
+  history: PropTypes.objectOf(PropTypes.any),
+  player: PropTypes.objectOf(PropTypes.any),
 }.isRequired;
 
-export default connect(mapStateToProps)(Ranking);
+export default connect()(Ranking);

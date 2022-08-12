@@ -1,4 +1,4 @@
-import { ADD_RANKING } from '../actions';
+import { ADD_RANKING } from '../../helpers/constants';
 
 const INITIAL_STATE = [];
 

@@ -6,22 +6,28 @@ import Header from '../components/Header';
 
 class Feedback extends Component {
   componentDidMount() {
-    this.setStorage();
+    this.setPlayersToLocalStorage();
   }
 
   handleClickLogin = () => {
-    const { history } = this.props;
-    history.push('/');
-  }
+    const {
+      history: { push },
+    } = this.props;
+    push('/');
+  };
 
   handleClickRanking = () => {
-    const { history } = this.props;
-    history.push('/ranking');
-  }
+    const {
+      history: { push },
+    } = this.props;
+    push('/ranking');
+  };
 
-  setStorage = () => {
-    const { name, score, gravatarEmail: picture } = this.props;
-    const gravatarUrl = `https://www.gravatar.com/avatar/${md5(picture).toString()}`;
+  setPlayersToLocalStorage = () => {
+    const { name, score, gravatarEmail } = this.props;
+    const gravatarUrl = `https://www.gravatar.com/avatar/${md5(
+      gravatarEmail,
+    ).toString()}`;
 
     const playerObj = {
       name,
@@ -30,12 +36,15 @@ class Feedback extends Component {
     };
 
     const storage = JSON.parse(localStorage.getItem('ranking'));
+
     if (storage !== null) {
       const rankingList = [...storage, playerObj];
+
       return localStorage.setItem('ranking', JSON.stringify(rankingList));
     }
+
     localStorage.setItem('ranking', JSON.stringify([playerObj]));
-  }
+  };
 
   render() {
     const { assertions, score } = this.props;
@@ -45,14 +54,12 @@ class Feedback extends Component {
       <div>
         <Header />
         <h2 data-testid="feedback-text">
-          { assertions >= minimumAssertions ? 'Well Done!' : 'Could be better...' }
+          {assertions >= minimumAssertions
+            ? 'Well Done!'
+            : 'Could be better...'}
         </h2>
-        <p data-testid="feedback-total-score">
-          {score}
-        </p>
-        <p data-testid="feedback-total-question">
-          {assertions}
-        </p>
+        <p data-testid="feedback-total-score">{score}</p>
+        <p data-testid="feedback-total-question">{assertions}</p>
         <button
           type="button"
           data-testid="btn-play-again"
@@ -73,17 +80,11 @@ class Feedback extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  score: state.player.score,
-  assertions: state.player.assertions,
-  name: state.player.name,
-  gravatarEmail: state.player.gravatarEmail,
-});
+const mapStateToProps = ({ player }) => player;
 
 Feedback.propTypes = {
   history: PropTypes.objectOf(PropTypes.any),
   player: PropTypes.objectOf(PropTypes.any),
 }.isRequired;
 
-// export default Feedback;
 export default connect(mapStateToProps)(Feedback);

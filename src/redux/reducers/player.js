@@ -1,4 +1,9 @@
-import { ADD_USER, SAVE_SCORE, SAVE_ASSERTIONS, RESET_SCORE } from '../actions';
+import {
+  ADD_USER,
+  SAVE_SCORE,
+  SAVE_ASSERTIONS,
+  RESET_SCORE,
+} from '../../helpers/constants';
 
 const INITIAL_STATE = {
   name: '',

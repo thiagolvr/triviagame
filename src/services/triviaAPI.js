@@ -20,19 +20,3 @@ export const fetchTrivia = async (token) => {
     console.log(error);
   }
 };
-
-export const setToken = async () => {
-  const token = await fetchAPI();
-  const { code } = await fetchTrivia(token);
-  localStorage.setItem('token', token);
-  localStorage.setItem('code', code);
-};
-
-/**
- * {
-  ranking: [
-    { name: nome_da_pessoa, score: 10, picture: url_da_foto_no_gravatar }
-  ],
-  token: token_recebido_pela_API
-}
- */

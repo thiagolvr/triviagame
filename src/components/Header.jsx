@@ -33,16 +33,9 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  player: PropTypes.shape({
-    name: PropTypes.string,
-    gravatarEmail: PropTypes.string,
-  }),
+  player: PropTypes.objectOf(PropTypes.any),
 }.isRequired;
 
-const mapStateToProps = (state) => ({
-  name: state.player.name,
-  gravatarEmail: state.player.gravatarEmail,
-  score: state.player.score,
-});
+const mapStateToProps = ({ player }) => player;
 
 export default connect(mapStateToProps)(Header);
