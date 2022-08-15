@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { resetScore } from '../redux/actions';
 import Player from '../components/Player';
+import '../style/css/Rank.css';
 
 class Ranking extends Component {
   handleGetRankingFromLocalStorage = () => JSON
