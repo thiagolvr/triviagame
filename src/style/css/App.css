@@ -36,3 +36,7 @@
     transform: translate3d(4px, 0, 0);
   }
 }
+
+body {
+  background-image: url('https://media.istockphoto.com/vectors/abstract-background-webinar-line-icons-set-vector-id1173602945?k=20&m=1173602945&s=612x612&w=0&h=VvK04O9NKHj7WcOhihIMEnW7jb4mmc44rSdyhozCZyA=');
+}

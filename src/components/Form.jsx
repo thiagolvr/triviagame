@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import '../style/css/Login.css';
 
 class Form extends Component {
   render() {
@@ -22,8 +23,10 @@ class Form extends Component {
             value={ name }
             placeholder="Type your name"
             onChange={ handleChangeInput }
+            className="input-name"
           />
         </label>
+        <br />
         <label htmlFor="inputEmail">
           <input
             data-testid="input-gravatar-email"
@@ -32,13 +35,16 @@ class Form extends Component {
             placeholder="Type your email"
             value={ gravatarEmail }
             onChange={ handleChangeInput }
+            className="input-email"
           />
+          <br />
           <button
             data-testid="btn-play"
             type="button"
             id="isButtonDisabled"
             onClick={ handleClickPlay }
             disabled={ isButtonDisabled }
+            className="play-btn"
           >
             Play
           </button>
@@ -46,6 +52,7 @@ class Form extends Component {
             data-testid="btn-settings"
             type="button"
             onClick={ handleClickSettings }
+            className="settings-btn"
           >
             Settings
           </button>
