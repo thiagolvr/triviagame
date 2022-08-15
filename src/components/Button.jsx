@@ -23,6 +23,7 @@ class Button extends Component {
         key={ indexButton }
         disabled={ isButtonsDisabled }
         onClick={ handleClickAnAnswer }
+        className="answer-btn"
       >
         {answer}
       </button>

@@ -37,6 +37,7 @@ class Summary extends Component {
             type="button"
             data-testid="btn-play-again"
             onClick={ handleClickLogin }
+            className="btn-play-again"
           >
             Play Again
           </button>
@@ -44,6 +45,7 @@ class Summary extends Component {
           <button
             type="button"
             data-testid="btn-ranking"
+            className="btn-ranking"
             onClick={ handleClickRanking }
           >
             Ranking

@@ -14,30 +14,33 @@ class Form extends Component {
     } = this.props;
 
     return (
-      <form className="login-form">
-        <label htmlFor="inputName">
-          <input
-            data-testid="input-player-name"
-            type="text"
-            id="name"
-            value={ name }
-            placeholder="Type your name"
-            onChange={ handleChangeInput }
-            className="input-name"
-          />
-        </label>
-        <br />
-        <label htmlFor="inputEmail">
-          <input
-            data-testid="input-gravatar-email"
-            type="email"
-            id="gravatarEmail"
-            placeholder="Type your email"
-            value={ gravatarEmail }
-            onChange={ handleChangeInput }
-            className="input-email"
-          />
-          <br />
+      <div className="login-box">
+        <form>
+          <h3>Welcome to Trivia</h3>
+          <div className="user-box">
+            <input
+              data-testid="input-player-name"
+              type="text"
+              id="name"
+              value={ name }
+              onChange={ handleChangeInput }
+              className="input-name"
+              required
+            />
+            <p>Name</p>
+          </div>
+          <div className="user-box">
+            <input
+              data-testid="input-gravatar-email"
+              type="email"
+              id="gravatarEmail"
+              value={ gravatarEmail }
+              onChange={ handleChangeInput }
+              className="input-email"
+              required
+            />
+            <p>Email</p>
+          </div>
           <button
             data-testid="btn-play"
             type="button"
@@ -46,6 +49,10 @@ class Form extends Component {
             disabled={ isButtonDisabled }
             className="play-btn"
           >
+            <span />
+            <span />
+            <span />
+            <span />
             Play
           </button>
           <button
@@ -56,8 +63,9 @@ class Form extends Component {
           >
             Settings
           </button>
-        </label>
-      </form>
+        </form>
+
+      </div>
     );
   }
 }

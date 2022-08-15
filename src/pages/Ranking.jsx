@@ -39,6 +39,7 @@ class Ranking extends Component {
           data-testid="btn-go-home"
           type="button"
           onClick={ this.handleClickGoHomeButton }
+          className="home-btn"
         >
           Go home
         </button>

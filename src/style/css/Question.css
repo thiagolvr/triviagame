@@ -1,7 +1,48 @@
+.btn-play-again {
+  background-color: black;
+  color: white;
+  height: 30px;
+  width: 80px;
+}
+
+.btn-ranking {
+  background-color: black;
+  color: white;
+  height: 30px;
+  width: 80px;
+}
+
+body {
+  color: white;
+  font-size: 20px;
+}
+
 .correct-answer {
+  background-color: black;
   border: 3px solid rgb(6, 240, 15);
+  color: white;
+  height: 30px;
+  width: 90%;
 }
 
 .incorrect-answers {
+  background-color: black;
   border: 3px solid red;
+  color: white;
+  height: 30px;
+  width: 90%;
+}
+
+.answer-btn {
+  background-color: black;
+  color: white;
+  height: 30px;
+  width: 90%;
+}
+
+.next-btn {
+  background-color: rgba(0, 0, 0, 0.418);
+  color: white;
+  height: 30px;
+  width: 80px;
 }

@@ -5,6 +5,8 @@ import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
 import Summary from '../components/Summary';
 import { minimumAssertions } from '../helpers/constants';
+import { resetScore } from '../redux/actions';
+import '../style/css/Feedback.css';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -14,8 +16,10 @@ class Feedback extends Component {
   handleClickLogin = () => {
     const {
       history: { push },
+      dispatch,
     } = this.props;
     push('/');
+    dispatch(resetScore(0));
   };
 
   handleClickRanking = () => {
