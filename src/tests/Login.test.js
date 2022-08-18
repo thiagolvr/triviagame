@@ -55,7 +55,6 @@ test('Testa se ao clicar no botão play é redirecionado para rota /game', async
       expect(screen.getByText('alguem')).toBeInTheDocument(),
       { timeout: 5000 }
      );
-      console.log('pathname', location.pathname);
    })
    test('Testa se ao clicar no botão settings é redirecionado para rota /settings', () => {
      renderWithRouterAndRedux(<App />);

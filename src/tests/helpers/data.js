@@ -62,3 +62,4 @@ const questionsResponse = {
     ],
   };
   
+export default questionsResponse;
