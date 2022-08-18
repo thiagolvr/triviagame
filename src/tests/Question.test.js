@@ -7,20 +7,27 @@ import questionsResponse from './helpers/data';
 
 describe('test if the questions component', () => {
 
-  // it('a', () => {
-  //   localStorage.setItem('code', '1');
-  //   const { history } = renderWithRouterAndRedux(<App/>);
+  it('test the local storage', async () => {
+    localStorage.setItem('token', 'anteteguemon');
+    localStorage.setItem('code', '1');
 
-  //   const playButton = screen.getByRole('button', { name: 'Play' });
-  //   userEvent.type(screen.getByTestId('input-gravatar-email'), 'alguem@email.com');
-  //   userEvent.type(screen.getByTestId('input-player-name'), 'alguem');
-  //   userEvent.click(playButton);
-  //   expect(JSON.parse(localStorage.getItem('token'))).toBe(null);
-  //   expect(history.location.pathname).toBe('/')
-  // })
+    const { history } = renderWithRouterAndRedux(<App/>);
+
+    const playButton = screen.getByRole('button', { name: 'Play' });
+    userEvent.type(screen.getByTestId('input-gravatar-email'), 'alguem@email.com');
+    userEvent.type(screen.getByTestId('input-player-name'), 'alguem');
+    console.log(localStorage.getItem('code'));
+    userEvent.click(playButton);
+    console.log(localStorage.getItem('code'));
+
+    await waitFor(() => {
+      expect(JSON.parse(localStorage.getItem('token'))).toBe(null);
+      expect(history.location.pathname).toBe('/')
+    }, { timeout: 5000 })
+
+  })
 
   jest.useFakeTimers();
-  // jest.spyOn(global, 'setTimeout');
 
   test('test if he game starts with questions', async () => {
     localStorage.setItem('code', '0');
